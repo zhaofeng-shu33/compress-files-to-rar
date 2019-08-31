@@ -4,9 +4,9 @@ function test_rar(){
   // prepare the data
   $str_1 = "compress files\nto rar";
   $str_2 = 'files compress';
-  $file_list = array('/tmp/test_compress_files_1.txt', '/tmp/test_compress_files_2.txt');
-  file_put_contents($file_list[0], $str_1);
-  file_put_contents($file_list[1], $str_2);
+  $file_list = array('cf1' => '/tmp/test_compress_files_1.txt', 'cf2' => '/tmp/test_compress_files_2.txt');
+  file_put_contents($file_list['cf1'], $str_1);
+  file_put_contents($file_list['cf2'], $str_2);
   // invoke the wrapper
   try{
     $file_name = rar($file_list);
@@ -21,8 +21,8 @@ function test_rar(){
   $rar_arch = rar_open($file_name);
   $entries = $rar_arch->getEntries();
   assert(count($entries) == 2);
-  assert($entries[0]->getName() == trim($file_list[0], '/'));  
-  assert($entries[1]->getName() == trim($file_list[1],'/'));
+  assert($entries[0]->getName() == 'cf1');  
+  assert($entries[1]->getName() == 'cf2');
   $str_1_1 = fread($entries[0]->getStream(), 8192);
   $str_2_2 = fread($entries[1]->getStream(), 8192);
   assert($str_1 == $str_1_1);
