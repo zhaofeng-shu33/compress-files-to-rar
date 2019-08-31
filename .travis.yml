@@ -1,5 +1,6 @@
 language: php
 install:
+  - pecl install rar
   - ./install_dep.sh
 cache:
   directories:
