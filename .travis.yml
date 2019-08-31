@@ -8,3 +8,4 @@ cache:
 script:
   - php test.php # unit test
   - ./integration_test.sh
+  - ./local_rar_test.sh
