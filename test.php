@@ -15,9 +15,18 @@ function test_rar(){
     echo $e->getMessage() . "\n";
     die();
   }
-  echo $file_name;
   // assert
-  
+  // install and enable rar archiving for your php
+  // see https://www.php.net/manual/en/book.rar.php
+  $rar_arch = rar_open($file_name);
+  $entries = $rar_arch->getEntries();
+  assert(count($entries) == 2);
+  assert($entries[0]->getName() == trim($file_list[0], '/'));  
+  assert($entries[1]->getName() == trim($file_list[1],'/'));
+  $str_1_1 = fread($entries[0]->getStream(), 8192);
+  $str_2_2 = fread($entries[1]->getStream(), 8192);
+  assert($str_1 == $str_1_1);
+  assert($str_2 == $str_2);
 }
 test_rar();
 ?>
