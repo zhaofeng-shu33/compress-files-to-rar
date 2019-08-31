@@ -1,0 +1,8 @@
+language: php
+install:
+  - ./install_dep.sh
+cache:
+  directories:
+  - /usr/local/bin
+script:
+  - php test.php
