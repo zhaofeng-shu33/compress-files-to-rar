@@ -7,9 +7,8 @@ if(isset($_POST["filename"])){
 }
 ?>
 <form action="index.php" method="post" enctype="multipart/form-data">
-  rar file name:<br/>
+  rar file name(including extension .rar):<br/>
   <input name="filename" type="text"/><br/>
-  <input name="<?php echo $file_key;?>[]" type="file" /><br/>
-  <input name="<?php echo $file_key;?>[]" type="file" /><br/>
+  <input name="<?php echo $file_key;?>[]" type="file" multiple /><br/>
   <input type="submit" value="compress files" />
 </form>

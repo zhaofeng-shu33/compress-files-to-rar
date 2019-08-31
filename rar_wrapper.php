@@ -17,19 +17,25 @@
         throw new Exception($cmd_string . "\n" . $err_msg);
       }
     }
-
+    function get_rar_executable_path(){
+      if(getenv('LOCALRAR')){
+        return dirname(__FILE__) . '/rar';
+      }
+      return 'rar'; // system rar
+    }
     // wrapper to call external unrar library
     // we assume rar is on the system path
     // @params $file_list: Array (name => tmp_name)
     // @returns String if return_file_path=true; byte archive object otherwise
     function rar($file_list, $return_file_path=true){
       $file_name = '/tmp/' . random_string() . '.rar';
-      $cmd_string = 'rar a ' . $file_name;
+      $rar_name = get_rar_executable_path();
+      $cmd_string = $rar_name . ' a ' . $file_name;
       foreach($file_list as $i){
         $cmd_string .= ' ' . $i;
       }
       execute_external_program($cmd_string);
-      $cmd_string = 'rar rn ' . $file_name;
+      $cmd_string = $rar_name . ' rn ' . $file_name;
       foreach($file_list as $k => $v){
         $cmd_string .= ' ' . trim($v, "/") . ' ' . $k;
       }
