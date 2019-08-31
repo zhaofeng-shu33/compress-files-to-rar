@@ -45,12 +45,56 @@
         return $contents;
       }
     }
-    // read input files from http form post 
+    // read input files from http form post, get the filename from POST['filename'] 
+    /*
+	When uploading multiple files, the $_FILES[key] variable is created in the form:
+
+	Array
+	(
+		[name] => Array
+		    (
+		        [0] => foo.txt
+		        [1] => bar.txt
+		    )
+		[tmp_name] => Array
+		    (
+		        [0] => /tmp/phpYzdqkD
+		        [1] => /tmp/phpeEwEWG
+		    )
+	)
+    */ 
     // and write the necessary header and data
-    function http_handle(){
-      $file_list = array();
-      foreach($_FILES as $file){
-          $file_list.push($file['tmp_name']);
+    // this function should not fail, err code is 1
+    function http_handle($file_key, $output_name){
+      $file_list = array();   
+      $php_file_list = $_FILES[$file_key];  
+	  $file_count = count($php_file_list['name']);
+
+	  if($file_count == 0){
+		error_handling("no file is uploaded");
       }
+      for($i = 0; $i < $file_count; $i++){
+        $file_list[$php_file_list['name'][$i]] = $php_file_list['tmp_name'][$i];
+      }
+      try{
+	    $raw_contents = rar($file_list, false);
+      }
+	  catch(Exception $e){
+		error_handling("compress files fails"); 
+	  }
+      header('Content-Type: application/octet-stream');
+      header('Content-Disposition: attachment; filename="' . $output_name . '"');
+      echo $raw_contents;
+    }
+
+    function error_handling($err_message){
+      header('Content-Type: text/html');
+      echo $err_message;
+      die();
+    }
+ 
+    function debug_helper($var_to_dump){
+	  $debug_info = var_export($var_to_dump, true);
+      file_put_contents('debug.txt', $debug_info);
     }
 ?>

@@ -6,4 +6,5 @@ cache:
   directories:
   - /usr/local/bin
 script:
-  - php test.php
+  - php test.php # unit test
+  - ./integration_test.sh

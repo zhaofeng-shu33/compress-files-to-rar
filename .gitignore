@@ -1,3 +1,5 @@
+*.pid
+*.rar
 build/
 vendor/
 .env
