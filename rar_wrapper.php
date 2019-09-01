@@ -80,7 +80,8 @@
 		error_handling("no file is uploaded");
       }
       for($i = 0; $i < $file_count; $i++){
-        $file_list[$php_file_list['name'][$i]] = $php_file_list['tmp_name'][$i];
+        $file_real_name = mb_convert_encoding($php_file_list['name'][$i], 'UTF-8', 'HTML-ENTITIES');
+        $file_list[$file_real_name] = $php_file_list['tmp_name'][$i];
       }
       try{
 	    $raw_contents = rar($file_list, false);
