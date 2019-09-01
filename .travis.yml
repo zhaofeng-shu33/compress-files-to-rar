@@ -9,6 +9,8 @@ script:
   - php test.php # unit test
   - ./integration_test.sh
   - ./local_rar_test.sh
+before_deploy:
+  - composer update
 deploy:
   provider: heroku
   api_key: $HEROKU_KEY
